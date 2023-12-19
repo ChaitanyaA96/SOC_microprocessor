@@ -1,18 +1,18 @@
-module FSM(Addr, clk, rst, RegDst, RegWrite, ExtOp, ALUSrc, ALUOp, MemWrite, MemRead, MemtoReg, Beq, Bne, J, ALUCtrl, Z);
+module FSM(Addr, clk, rst, reg_dst, reg_write, ExtOp, ALUSrc, ALUOp, MemWrite, MemRead, MemtoReg, Beq, Bne, J, ALUCtrl, Z);
 	// Inputs
 	input clk,rst,Z;
 	input [5:0]Addr;
 
 	//Outputs
-	output reg RegDst, RegWrite, ExtOp, ALUSrc, ALUOp, MemWrite, MemRead, MemtoReg, Beq, Bne, J;
+	output reg reg_dst, reg_write, ExtOp, ALUSrc, ALUOp, MemWrite, MemRead, MemtoReg, Beq, Bne, J;
 	output reg [3:0]ALUCtrl;
 	
 	always @(posedge clk)
 	begin
 		if(clb==0)
 			begin
-				RegDst <= 0;
-				RegWrite <= 0;
+				reg_dst <= 0;
+				reg_write <= 0;
 				ExtOp <= 0;
 				ALUSrc <= 0;
 				ALUOp <= 0;
@@ -33,8 +33,8 @@ module FSM(Addr, clk, rst, RegDst, RegWrite, ExtOp, ALUSrc, ALUOp, MemWrite, Mem
 					case(funct)
 					6'b100000://Add
 						begin
-							RegDst<=1;
-							RegWrite<=1;
+							reg_dst<=1;
+							reg_write<=1;
 							ALUOp<=1;
 							ALUSrc<=0;
 							Beq <= 0;
@@ -47,8 +47,8 @@ module FSM(Addr, clk, rst, RegDst, RegWrite, ExtOp, ALUSrc, ALUOp, MemWrite, Mem
 						end	
 					6'b100010://Subtarct
 						begin
-							RegDst<=1;
-							RegWrite<=1;
+							reg_dst<=1;
+							reg_write<=1;
 							ALUOp<=1;
 							ALUSrc<=0;
 							Beq <= 0;
@@ -61,8 +61,8 @@ module FSM(Addr, clk, rst, RegDst, RegWrite, ExtOp, ALUSrc, ALUOp, MemWrite, Mem
 						end
 					6'b100111://NOR
 						begin
-							RegDst<=1;
-							RegWrite<=1;
+							reg_dst<=1;
+							reg_write<=1;
 							ALUOp<=1;
 							ALUSrc<=0;
 							Beq <= 0;
@@ -75,8 +75,8 @@ module FSM(Addr, clk, rst, RegDst, RegWrite, ExtOp, ALUSrc, ALUOp, MemWrite, Mem
 						end
 					6'b100100://AND
 						begin
-							RegDst<=1;
-							RegWrite<=1;
+							reg_dst<=1;
+							reg_write<=1;
 							ALUOp<=1;
 							ALUSrc<=0;
 							Beq <= 0;
@@ -89,8 +89,8 @@ module FSM(Addr, clk, rst, RegDst, RegWrite, ExtOp, ALUSrc, ALUOp, MemWrite, Mem
 						end
 					6'b000000://Shift Left
 						begin
-							RegDst<=1;
-							RegWrite<=1;
+							reg_dst<=1;
+							reg_write<=1;
 							ALUOp<=1;
 							ALUSrc<=0;
 							Beq <= 0;
@@ -103,8 +103,8 @@ module FSM(Addr, clk, rst, RegDst, RegWrite, ExtOp, ALUSrc, ALUOp, MemWrite, Mem
 						end
 					6'b000010://Shift Right
 						begin
-							RegDst<=1;
-							RegWrite<=1;
+							reg_dst<=1;
+							reg_write<=1;
 							ALUOp<=1;
 							ALUSrc<=0;
 							Beq <= 0;
