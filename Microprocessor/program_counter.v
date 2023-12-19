@@ -10,7 +10,8 @@ input wire clk,
 input wire Z,
 input wire J,
 input wire Beq,
-input wire Bne
+input wire Bne,
+input wire IncPC
 );
 
 reg [31:0] pc;

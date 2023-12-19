@@ -1,21 +1,31 @@
-module FSM(opcode, funct, clk, rst, RegDst, RegWrite, ExtOp, ALUSrc, MemWrite, MemRead, MemtoReg, Beq, Bne, J, ALUCtrl, Z);
+module FSM(Addr, clk, rst, RegDst, RegWrite, ExtOp, ALUSrc, ALUOp, MemWrite, MemRead, MemtoReg, Beq, Bne, J, ALUCtrl, Z);
 	// Inputs
 	input clk,rst,Z;
-	input [5:0]opcode;
-	input [5:0]funct;
+	input [5:0]Addr;
 
 	//Outputs
-	output reg RegDst, RegWrite, ExtOp, ALUSrc, MemWrite, MemRead, MemtoReg, Beq, Bne, J;
+	output reg RegDst, RegWrite, ExtOp, ALUSrc, ALUOp, MemWrite, MemRead, MemtoReg, Beq, Bne, J;
 	output reg [3:0]ALUCtrl;
 	
 	always @(posedge clk)
 	begin
 		if(clb==0)
 			begin
-				//Set all equal to zero		
+				RegDst <= 0;
+				RegWrite <= 0;
+				ExtOp <= 0;
+				ALUSrc <= 0;
+				ALUOp <= 0;
+				MemWrite <= 0;
+				MemRead <= 0;
+				MemtoReg <= 0;
+				Beq <= 0;
+				Bne <= 0;
+				J <= 0;
 			end
 		else
 		begin
+
 			case(opcode)
 				// R-type instruction
 				6'b000000:
@@ -23,31 +33,97 @@ module FSM(opcode, funct, clk, rst, RegDst, RegWrite, ExtOp, ALUSrc, MemWrite, M
 					case(funct)
 					6'b100000://Add
 						begin
-							SelPC<=1'b0;LoadPC<=1'b0;LoadReg<=1'b0;LoadAcc<=1;SelAcc<=2'b10;ALUCtrl<=4'b0001;
+							RegDst<=1;
+							RegWrite<=1;
+							ALUOp<=1;
+							ALUSrc<=0;
+							Beq <= 0;
+							Bne <= 0;
+							J <= 0;
+							MemWrite <= 0;
+							MemRead <= 0;
+							MemtoReg <= 0;
+							ALUCtrl<=4'b0000;
 						end	
 					6'b100010://Subtarct
 						begin
-							SelPC<=1'b0;LoadPC<=1'b0;LoadReg<=1'b0;LoadAcc<=1;SelAcc<=2'b10;ALUCtrl<=4'b0010;
+							RegDst<=1;
+							RegWrite<=1;
+							ALUOp<=1;
+							ALUSrc<=0;
+							Beq <= 0;
+							Bne <= 0;
+							J <= 0;
+							MemWrite <= 0;
+							MemRead <= 0;
+							MemtoReg <= 0;
+							ALUCtrl<=4'b0010;
 						end
 					6'b100111://NOR
 						begin
-							SelPC<=1'b0;LoadPC<=1'b0;LoadReg<=1'b0;LoadAcc<=1;SelAcc<=2'b10;ALUCtrl<=4'b0011;
+							RegDst<=1;
+							RegWrite<=1;
+							ALUOp<=1;
+							ALUSrc<=0;
+							Beq <= 0;
+							Bne <= 0;
+							J <= 0;
+							MemWrite <= 0;
+							MemRead <= 0;
+							MemtoReg <= 0;
+							ALUCtrl<=4'b0101;
 						end
 					6'b100100://AND
 						begin
-							SelPC<=1'b0;LoadPC<=1'b0;LoadReg<=1'b0;LoadAcc<=1;SelAcc<=2'b10;ALUCtrl<=4'b0011;
+							RegDst<=1;
+							RegWrite<=1;
+							ALUOp<=1;
+							ALUSrc<=0;
+							Beq <= 0;
+							Bne <= 0;
+							J <= 0;
+							MemWrite <= 0;
+							MemRead <= 0;
+							MemtoReg <= 0;
+							ALUCtrl<=4'b0100;
 						end
 					6'b000000://Shift Left
 						begin
-							SelPC<=1'b0;LoadPC<=1'b0;LoadReg<=1'b0;LoadAcc<=1;SelAcc<=2'b10;ALUCtrl<=4'b0011;
+							RegDst<=1;
+							RegWrite<=1;
+							ALUOp<=1;
+							ALUSrc<=0;
+							Beq <= 0;
+							Bne <= 0;
+							J <= 0;
+							MemWrite <= 0;
+							MemRead <= 0;
+							MemtoReg <= 0;
+							ALUCtrl<=4'b1010;
 						end
 					6'b000010://Shift Right
 						begin
-							SelPC<=1'b0;LoadPC<=1'b0;LoadReg<=1'b0;LoadAcc<=1;SelAcc<=2'b10;ALUCtrl<=4'b0011;
+							RegDst<=1;
+							RegWrite<=1;
+							ALUOp<=1;
+							ALUSrc<=0;
+							Beq <= 0;
+							Bne <= 0;
+							J <= 0;
+							MemWrite <= 0;
+							MemRead <= 0;
+							MemtoReg <= 0;
+							ALUCtrl<=4'b1011;
 						end
 					6'b001000://Jump Reg
 						begin
-							SelPC<=1'b0;LoadPC<=1'b0;LoadReg<=1'b0;LoadAcc<=1;SelAcc<=2'b10;ALUCtrl<=4'b0011;
+							SelPC<=1'b0;
+							LoadPC<=1'b0;
+							LoadReg<=1'b0;
+							LoadAcc<=1;
+							SelAcc<=2'b10;
+							ALUOp<=1;
+							ALUCtrl<=4'b0001;
 						end
 					//Add testcase for Jump Reg
 					endcase

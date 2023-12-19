@@ -1,14 +1,11 @@
-module processor(clk,CLB,instruction_in,z,c,address);
+module processor(clk, rst, PC, alu_result);
 		
 	
 	input clk,rst;
-	input [31:0]instr_op;
+	input [31:0]PC, alu_result;
 	
-	wire RegDst, RegWrite, ExtOp, ALUSrc, MemWrite, MemRead, MemtoReg, Beq, Bne, J;
+	wire RegDst, RegWrite, ExtOp, ALUSrc, MemWrite, MemRead, MemtoReg, Beq, Bne, J, IncPC;
 	wire [3:0]ALUCtrl;
-
-	//Any additional wires if required
-	//wire [7:0]reg_data,acc_data,instr,alu_out;
 	
 	always @(posedge clk)
 		imm=instr[3:0];
