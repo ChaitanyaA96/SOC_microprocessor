@@ -133,11 +133,11 @@ module FSM(Addr, clk, rst, reg_dst, reg_write, ExtOp, ALUSrc, ALUOp, MemWrite, M
 				begin
 					if(z==1'b1)
 					begin
-						SelPC<=1'b1;LoadPC<=1'b1;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 					else 
 					begin
-						SelPC<=1'b0;LoadPC<=1'b0;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 				end
 
@@ -145,11 +145,11 @@ module FSM(Addr, clk, rst, reg_dst, reg_write, ExtOp, ALUSrc, ALUOp, MemWrite, M
 				begin
 					if(z==1'b1)
 					begin
-						SelPC<=1'b1;LoadPC<=1'b1;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 					else 
 					begin
-						SelPC<=1'b0;LoadPC<=1'b0;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 				end
 
@@ -157,11 +157,11 @@ module FSM(Addr, clk, rst, reg_dst, reg_write, ExtOp, ALUSrc, ALUOp, MemWrite, M
 				begin
 					if(z==1'b1)
 					begin
-						SelPC<=1'b1;LoadPC<=1'b1;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 					else 
 					begin
-						SelPC<=1'b0;LoadPC<=1'b0;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 				end
 
@@ -169,11 +169,11 @@ module FSM(Addr, clk, rst, reg_dst, reg_write, ExtOp, ALUSrc, ALUOp, MemWrite, M
 				begin
 					if(z==1'b1)
 					begin
-						SelPC<=1'b1;LoadPC<=1'b1;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 					else 
 					begin
-						SelPC<=1'b0;LoadPC<=1'b0;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 				end
 
@@ -181,11 +181,11 @@ module FSM(Addr, clk, rst, reg_dst, reg_write, ExtOp, ALUSrc, ALUOp, MemWrite, M
 				begin
 					if(z==1'b1)
 					begin
-						SelPC<=1'b1;LoadPC<=1'b1;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 					else 
 					begin
-						SelPC<=1'b0;LoadPC<=1'b0;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 				end
 
@@ -193,11 +193,11 @@ module FSM(Addr, clk, rst, reg_dst, reg_write, ExtOp, ALUSrc, ALUOp, MemWrite, M
 				begin
 					if(z==1'b1)
 					begin
-						SelPC<=1'b1;LoadPC<=1'b1;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+
 					end
 					else 
 					begin
-						SelPC<=1'b0;LoadPC<=1'b0;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 				end
 
@@ -205,11 +205,11 @@ module FSM(Addr, clk, rst, reg_dst, reg_write, ExtOp, ALUSrc, ALUOp, MemWrite, M
 				begin
 					if(z==1'b1)
 					begin
-						SelPC<=1'b1;LoadPC<=1'b1;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 					else 
 					begin
-						SelPC<=1'b0;LoadPC<=1'b0;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 				end
 
@@ -217,11 +217,11 @@ module FSM(Addr, clk, rst, reg_dst, reg_write, ExtOp, ALUSrc, ALUOp, MemWrite, M
 				begin
 					if(z==1'b1)
 					begin
-						SelPC<=1'b1;LoadPC<=1'b1;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 					else 
 					begin
-						SelPC<=1'b0;LoadPC<=1'b0;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 				end
 
@@ -229,11 +229,11 @@ module FSM(Addr, clk, rst, reg_dst, reg_write, ExtOp, ALUSrc, ALUOp, MemWrite, M
 				begin
 					if(z==1'b1)
 					begin
-						SelPC<=1'b1;LoadPC<=1'b1;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 					else 
 					begin
-						SelPC<=1'b0;LoadPC<=1'b0;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 				end
 
@@ -241,11 +241,11 @@ module FSM(Addr, clk, rst, reg_dst, reg_write, ExtOp, ALUSrc, ALUOp, MemWrite, M
 				begin
 					if(z==1'b1)
 					begin
-						SelPC<=1'b1;LoadPC<=1'b1;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 					else 
 					begin
-						SelPC<=1'b0;LoadPC<=1'b0;LoadReg<=1'b0;LoadAcc<=0;SelAcc<=2'b00;ALUCtrl<=4'b0000;
+						
 					end
 				end
 

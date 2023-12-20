@@ -1,5 +1,4 @@
 module processor(clk, rst, PC, alu_result);
-		
 	
 	input clk,rst;
 	input [31:0]PC;
@@ -15,11 +14,6 @@ module processor(clk, rst, PC, alu_result);
 	wire [31:0] read_data_1, read_data_2, alu_src_2, write_data;
 	wire [31:0] alu_out, memory_out;
 	wire reg_dst, alu_src, mem_to_reg, reg_write, mem_read, mem_write, branch_on_eq, branch_on_neq, alu_zero, jump, inc_pc, ext_op;
-
-	always @(posedge clk)
-		imm=instr[3:0];
-	assign opcode=instr[7:4];
-	assign RegAddr=imm;
 
 	program_counter prog_count(.clk(clk),
 							   .CLB(CLB),
@@ -58,10 +52,13 @@ module processor(clk, rst, PC, alu_result);
 
 	//accumulator accumulator(.clk(clk),.clb(CLB),.SelAcc(SelAcc),.LoadAcc(LoadAcc),.Imm(imm),.Reg_data(reg_data),.acc_data(acc_data),.alu_out(alu_out));
 
-	ALU ALU(.a(acc_data), .b(reg_data), .alu_ctrl(ALUCtrl), .shamt(shamt), .result(result));
+	ALU ALU(.a(acc_data), 
+			.b(reg_data), 
+			.alu_ctrl(ALUCtrl), 
+			.shamt(shamt), 
+			.result(result));
 
 	
-
 	//reg_file reg_mem(.clk(clk),.CLB(CLB),.LoadReg(LoadReg),.reg_in(acc_data),.RegAddr(RegAddr),.reg_out(reg_data));
 
 	//program_counter prog_count(.clk(clk),.CLB(CLB),.IncPC(IncPC),.LoadPC(LoadPC),.selPC(SelPC),.regIn(reg_data),.imm(imm),.address(address));
