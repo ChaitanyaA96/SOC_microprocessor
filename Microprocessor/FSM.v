@@ -1,11 +1,10 @@
 module FSM(
-	input rst;
-	input zero;
-	input [5:0]opcode;
-	input [5:0]funct;
-	output reg reg_dst, reg_write, ext_op, alu_src, mem_read, mem_write, mem_to_reg, branch_on_eq, branch_on_neq, jump;
-	output reg [3:0]ALUCtrl;
-);
+	input rst,
+	input zero,
+	input [5:0]opcode,
+	input [5:0]funct,
+	output reg reg_dst, reg_write, ext_op, alu_src, mem_read, mem_write, mem_to_reg, branch_on_eq, branch_on_neq, jump,
+	output reg [3:0]ALUCtrl);
 	
 	always @(*)
 		begin
@@ -221,7 +220,7 @@ module FSM(
 					reg_dst = 0;
 					reg_write = 0;
 					ext_op = 0;
-					ALUSrc = 0;
+					alu_src = 0;
 					mem_write = 0;
 					mem_read = 0;
 					mem_to_reg = 0;

@@ -1,7 +1,7 @@
-module processor(clk, rst, PC, alu_result);
+module pc(clk, rst, Addr, alu_result);
 	
 	input clk,rst;
-	input [31:0]PC;
+	input [31:0]Addr;
 	output [31:0]alu_result;
 	wire [3:0]ALUCtrl;
 	
@@ -13,19 +13,19 @@ module processor(clk, rst, PC, alu_result);
 	wire [31:0] next_pc_addr;
 	wire [31:0] acc_input_1, acc_input_2, sign_extended;
 	wire [31:0] data_mem_out, bus_w_mux, register_out_bus_b;
-	wire [31:0] result;
+	wire alu_output_ready;
 	wire reg_dst, alu_src, mem_to_reg, reg_write, mem_read, mem_write; 
-	wire branch_on_eq, branch_on_neq, alu_zero, jump, inc_pc, ext_op, zero, inc_pc, pc_src;
+	wire branch_on_eq, branch_on_neq, alu_zero, jump, ext_op, zero, inc_pc, pc_src;
 
 	program_counter prog_count(.clk(clk),
 							   .rst(rst),
 							   .next_pc_addr(next_pc_addr),
 							   .pc_src(pc_src),
-							   .address(PC));
+							   .address(Addr));
 	
-	next_programc next_pc(.immediate16(immediate16),
+	next_pc next_pc(.immediate16(immediate16),
 						  .immediate26(immediate26),
-						  .pc(PC),
+						  .pc(Addr),
 						  .jump(jump),
 						  .zero(zero),
 						  .branch_on_eq(branch_on_eq),
@@ -34,8 +34,8 @@ module processor(clk, rst, PC, alu_result);
 						  .target_address(next_pc_addr));
 
 	inst_mem inst_mem(.clk(clk),
-					  .rst(rst)
-					  .addr(PC),
+					  .rst(rst),
+					  .addr(Addr),
 					  .instruction(instruction));
 
 	// Decode the instruction
@@ -57,8 +57,8 @@ module processor(clk, rst, PC, alu_result);
 			.b(acc_input_2), 
 			.alu_ctrl(ALUCtrl), 
 			.shamt(shamt), 
-			.result(result)
-			.zout(alu_result));
+			.result(alu_result),
+			.zout(alu_output_ready));
 
 	FSM fsm_control(.rst(rst),
 					.opcode(opcode),
@@ -79,9 +79,9 @@ module processor(clk, rst, PC, alu_result);
 	
 	assign reg_rw_mux = (reg_dst)?rd:rt;
 
-	assign bus_w_mux = (mem_to_reg)?data_mem_out?alu_result;
+	assign bus_w_mux = (mem_to_reg)?data_mem_out:alu_result;
 
-	reg_file register(.clk(clk),
+	Register Register(.clk(clk),
 					  .rst(rst),
 					  .Ra(rs),
 					  .Rb(rt),
@@ -92,7 +92,7 @@ module processor(clk, rst, PC, alu_result);
 					  .bus_b(register_out_bus_b)					  
 					  );
 	
-	data_memory data_memory(
+	DataMemory DataMemory(
 		.clk(clk),
 		.rst(rst),
 		.addr(alu_result),
