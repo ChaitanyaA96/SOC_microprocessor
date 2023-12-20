@@ -13,9 +13,9 @@ module pc(clk, rst, Addr, alu_result);
 	wire [31:0] next_pc_addr;
 	wire [31:0] acc_input_1, acc_input_2, sign_extended;
 	wire [31:0] data_mem_out, bus_w_mux, register_out_bus_b;
-	wire alu_output_ready;
 	wire reg_dst, alu_src, mem_to_reg, reg_write, mem_read, mem_write; 
 	wire branch_on_eq, branch_on_neq, alu_zero, jump, ext_op, zero, inc_pc, pc_src;
+
 
 	program_counter prog_count(.clk(clk),
 							   .rst(rst),
@@ -58,7 +58,7 @@ module pc(clk, rst, Addr, alu_result);
 			.alu_ctrl(ALUCtrl), 
 			.shamt(shamt), 
 			.result(alu_result),
-			.zout(alu_output_ready));
+			.zout(zero));
 
 	FSM fsm_control(.rst(rst),
 					.opcode(opcode),
