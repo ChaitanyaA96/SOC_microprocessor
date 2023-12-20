@@ -3,7 +3,7 @@ module ALU (
     input wire [31:0] b,
     input wire [3:0] alu_ctrl,
     input wire [4:0] shamt,
-    output reg [31:0] result,  // Change to reg for blocking assignment
+    output reg [31:0] result,
     output wire zout
 );
 

@@ -1,7 +1,7 @@
 module program_counter(
     input clk,
     input rst,
-    input [31:0] next_pc,
+    input [31:0] next_pc_addr,
     input pc_src,
     output wire [31:0] address
 );
@@ -13,7 +13,7 @@ module program_counter(
         if (rst) 
             PC <= 32'b0;  // Reset PC to 0
         else 
-            PC <= pc_src ? next_pc : PC + 4;  // Select next PC based on pc_src
+            PC <= pc_src ? next_pc_addr : PC + 4;  // Select next PC based on pc_src
     end
 
 endmodule

@@ -1,31 +1,14 @@
-module FSM(Addr, clk, rst, reg_dst, reg_write, ExtOp, ALUSrc, ALUOp, MemWrite, MemRead, MemtoReg, Beq, Bne, J, ALUCtrl, Z);
-	// Inputs
-	input clk,rst,Z;
-	input [5:0]Addr;
-
-	//Outputs
-	output reg reg_dst, reg_write, ExtOp, ALUSrc, ALUOp, MemWrite, MemRead, MemtoReg, Beq, Bne, J;
+module FSM(
+	input rst;
+	input zero;
+	input [5:0]opcode;
+	input [5:0]funct;
+	output reg reg_dst, reg_write, ext_op, alu_src, mem_read, mem_write, mem_to_reg, branch_on_eq, branch_on_neq, jump;
 	output reg [3:0]ALUCtrl;
+);
 	
-	always @(posedge clk)
-	begin
-		if(clb==0)
-			begin
-				reg_dst <= 0;
-				reg_write <= 0;
-				ExtOp <= 0;
-				ALUSrc <= 0;
-				ALUOp <= 0;
-				MemWrite <= 0;
-				MemRead <= 0;
-				MemtoReg <= 0;
-				Beq <= 0;
-				Bne <= 0;
-				J <= 0;
-			end
-		else
+	always @(*)
 		begin
-
 			case(opcode)
 				// R-type instruction
 				6'b000000:
@@ -33,205 +16,194 @@ module FSM(Addr, clk, rst, reg_dst, reg_write, ExtOp, ALUSrc, ALUOp, MemWrite, M
 					case(funct)
 					6'b100000://Add
 						begin
-							reg_dst<=1;
-							reg_write<=1;
-							ALUOp<=1;
-							ALUSrc<=0;
-							Beq <= 0;
-							Bne <= 0;
-							J <= 0;
-							MemWrite <= 0;
-							MemRead <= 0;
-							MemtoReg <= 0;
-							ALUCtrl<=4'b0000;
+							reg_dst=1'b1;
+							reg_write=1'b1;
+							alu_src = 1'b0;
+							branch_on_eq = 1'b1;
+							branch_on_neq = 1'b0;
+							jump = 1'b0;
+							mem_read = 1'b0;
+							mem_write = 1'b0;
+							mem_to_reg = 1'b0;
+							ALUCtrl=4'b0000;
 						end	
 					6'b100010://Subtarct
 						begin
-							reg_dst<=1;
-							reg_write<=1;
-							ALUOp<=1;
-							ALUSrc<=0;
-							Beq <= 0;
-							Bne <= 0;
-							J <= 0;
-							MemWrite <= 0;
-							MemRead <= 0;
-							MemtoReg <= 0;
-							ALUCtrl<=4'b0010;
+							reg_dst=1'b1;
+							reg_write=1'b1;
+							alu_src = 1'b0;
+							branch_on_eq = 1'b1;
+							branch_on_neq = 1'b0;
+							jump = 1'b0;
+							mem_read = 1'b0;
+							mem_write = 1'b0;
+							mem_to_reg = 1'b0;
+							ALUCtrl=4'b0010;
 						end
 					6'b100111://NOR
 						begin
-							reg_dst<=1;
-							reg_write<=1;
-							ALUOp<=1;
-							ALUSrc<=0;
-							Beq <= 0;
-							Bne <= 0;
-							J <= 0;
-							MemWrite <= 0;
-							MemRead <= 0;
-							MemtoReg <= 0;
-							ALUCtrl<=4'b0101;
+							reg_dst=1'b1;
+							reg_write=1'b1;
+							alu_src = 1'b0;
+							branch_on_eq = 1'b1;
+							branch_on_neq = 1'b0;
+							jump = 1'b0;
+							mem_read = 1'b0;
+							mem_write = 1'b0;
+							mem_to_reg = 1'b0;
+							ALUCtrl=4'b0101;
 						end
 					6'b100100://AND
 						begin
-							reg_dst<=1;
-							reg_write<=1;
-							ALUOp<=1;
-							ALUSrc<=0;
-							Beq <= 0;
-							Bne <= 0;
-							J <= 0;
-							MemWrite <= 0;
-							MemRead <= 0;
-							MemtoReg <= 0;
-							ALUCtrl<=4'b0100;
+							reg_dst=1'b1;
+							reg_write=1'b1;
+							alu_src = 1'b0;
+							branch_on_eq = 1'b1;
+							branch_on_neq = 1'b0;
+							jump = 1'b0;
+							mem_read = 1'b0;
+							mem_write = 1'b0;
+							mem_to_reg = 1'b0;
+							ALUCtrl=4'b0100;
 						end
 					6'b000000://Shift Left
 						begin
-							reg_dst<=1;
-							reg_write<=1;
-							ALUOp<=1;
-							ALUSrc<=0;
-							Beq <= 0;
-							Bne <= 0;
-							J <= 0;
-							MemWrite <= 0;
-							MemRead <= 0;
-							MemtoReg <= 0;
-							ALUCtrl<=4'b1010;
+							reg_dst=1'b1;
+							reg_write=1'b1;
+							alu_src = 1'b0;
+							branch_on_eq = 1'b1;
+							branch_on_neq = 1'b0;
+							jump = 1'b0;
+							mem_read = 1'b0;
+							mem_write = 1'b0;
+							mem_to_reg = 1'b0;
+							ALUCtrl=4'b1010;
 						end
 					6'b000010://Shift Right
 						begin
-							reg_dst<=1;
-							reg_write<=1;
-							ALUOp<=1;
-							ALUSrc<=0;
-							Beq <= 0;
-							Bne <= 0;
-							J <= 0;
-							MemWrite <= 0;
-							MemRead <= 0;
-							MemtoReg <= 0;
-							ALUCtrl<=4'b1011;
+							reg_dst=1'b1;
+							reg_write=1'b1;
+							branch_on_eq = 1'b1;
+							branch_on_neq = 1'b0;
+							jump = 1'b0;
+							alu_src = 1'b0;
+							mem_read = 1'b0;
+							mem_write = 1'b0;
+							mem_to_reg = 1'b0;
+							ALUCtrl=4'b1011;
 						end
 					6'b001000://Jump Reg
 						begin
-							SelPC<=1'b0;
-							LoadPC<=1'b0;
-							LoadReg<=1'b0;
-							LoadAcc<=1;
-							SelAcc<=2'b10;
-							ALUOp<=1;
-							ALUCtrl<=4'b0001;
 						end
-					//Add testcase for Jump Reg
 					endcase
 				end
 				
 				6'b001000://Add Immediate
 				begin
-					if(z==1'b1)
-					begin
-						
-					end
-					else 
-					begin
-						
-					end
+					reg_dst = 1'b0;
+					branch_on_eq = 1'b1;
+					branch_on_neq = 1'b0;
+					jump = 1'b0;
+					mem_read = 1'b0;
+					mem_write = 1'b0;
+					mem_to_reg = 1'b0;
+					alu_src = 1'b1;
+					reg_write = 1'b1;
+					ALUCtrl = 4'b0000;
 				end
 
 				6'b001100://And Immediate
 				begin
-					if(z==1'b1)
-					begin
-						
-					end
-					else 
-					begin
-						
-					end
+					reg_dst = 1'b0;
+					branch_on_eq = 1'b1;
+					branch_on_neq = 1'b0;
+					jump = 1'b0;
+					mem_read = 1'b0;
+					mem_write = 1'b0;
+					mem_to_reg = 1'b0;
+					alu_src = 1'b1;
+					reg_write = 1'b1;
+					ALUCtrl = 4'b0100;
 				end
 
 				6'b000100://Branch on EQ
 				begin
-					if(z==1'b1)
-					begin
-						
-					end
-					else 
-					begin
-						
-					end
+					reg_dst = 1'b0;
+					branch_on_eq = 1'b1;
+					branch_on_neq = 1'b0;
+					mem_read = 1'b0;
+					mem_write = 1'b0;
+					mem_to_reg = 1'b0;
+					alu_src = 1'b1;
+					reg_write = 1'b0;
+					ALUCtrl = 4'b0010;
 				end
+
 
 				6'b000101://Branch on NEQ
 				begin
-					if(z==1'b1)
-					begin
-						
-					end
-					else 
-					begin
-						
-					end
+					reg_dst = 1'b0;
+					branch_on_eq = 1'b0;
+					branch_on_neq = 1'b1;
+					mem_read = 1'b0;
+					mem_write = 1'b0;
+					mem_to_reg = 1'b0;
+					alu_src = 1'b1;
+					reg_write = 1'b0;
+					ALUCtrl = 4'b0010;
 				end
+
 
 				6'b000010://Jump
 				begin
-					if(z==1'b1)
-					begin
-						
-					end
-					else 
-					begin
-						
-					end
+					reg_dst = 1'b0;
+					branch_on_eq = 1'b0;
+					branch_on_neq = 1'b0;
+					jump = 1'b1;
+					mem_read = 1'b0;
+					mem_write = 1'b0;
+					mem_to_reg = 1'b0;
+					alu_src = 1'b0;
+					reg_write = 1'b0;
+					ALUCtrl = 4'b1111;
 				end
+
 
 				6'b000011://Jump and Link
 				begin
-					if(z==1'b1)
-					begin
-
-					end
-					else 
-					begin
-						
-					end
+					
 				end
 
 				6'b110000://Load Word
 				begin
-					if(z==1'b1)
-					begin
-						
-					end
-					else 
-					begin
-						
-					end
+					reg_dst = 1'b0;
+					branch_on_eq = 1'b0;
+					branch_on_neq = 1'b0;
+					jump = 1'b0;
+					mem_read = 1'b1;
+					mem_write = 1'b0;
+					mem_to_reg = 1'b1;
+					alu_src = 1'b1;
+					reg_write = 1'b1;
+					ALUCtrl = 4'b0000;
 				end
 
 				6'b101011://Store Word
 				begin
-					if(z==1'b1)
-					begin
-						
-					end
-					else 
-					begin
-						
-					end
+					reg_dst = 1'b0;
+					branch_on_eq = 1'b0;
+					branch_on_neq = 1'b0;
+					jump = 1'b0;
+					mem_read = 1'b0;
+					mem_write = 1'b1;
+					mem_to_reg = 1'b0;
+					alu_src = 1'b1;
+					reg_write = 1'b0;
+					ALUCtrl = 4'b0000;
 				end
 
 				6'b111111://No operation
 				begin
-					if(z==1'b1)
-					begin
-						
-					end
-					else 
 					begin
 						
 					end
@@ -239,11 +211,6 @@ module FSM(Addr, clk, rst, reg_dst, reg_write, ExtOp, ALUSrc, ALUOp, MemWrite, M
 
 				6'b000110://Stall
 				begin
-					if(z==1'b1)
-					begin
-						
-					end
-					else 
 					begin
 						
 					end
@@ -251,36 +218,19 @@ module FSM(Addr, clk, rst, reg_dst, reg_write, ExtOp, ALUSrc, ALUOp, MemWrite, M
 
 				default:
 				begin
-					SelPC<=SelPC;LoadPC<=LoadPC;LoadReg<=LoadReg;LoadAcc<=1'b0;SelAcc<=SelAcc;ALUCtrl<=ALUCtrl;
+					reg_dst = 0;
+					reg_write = 0;
+					ext_op = 0;
+					ALUSrc = 0;
+					mem_write = 0;
+					mem_read = 0;
+					mem_to_reg = 0;
+					branch_on_eq = 0;
+					branch_on_neq = 0;
+					jump = 0;
+					ALUCtrl=4'b1111;
 				end
 			endcase
 		end
-	end 
-	
-	always @(posedge cycle_status)
-	begin
-		if(rst==0)
-			LoadIR<=0;
-		else 
-			LoadIR<=(cycle_status==1)?1:0;
-	end
-	
-	always @(posedge clk)
-	begin
-		if(rst==0)
-			IncPC<=0;
-		else if(((opcode==4'b0110)&(z==1'b1))|((opcode==4'b0111)&(z==1'b1))|((opcode==4'b1000)&(c==1'b1))|((opcode==4'b1010)&(c==1'b1))|(opcode==4'b1111))
-			IncPC<=0;
-		else 
-			IncPC<=~IncPC;
-	end
-	
-	always @(posedge clk)
-	begin
-		if(clb==0)
-			cycle_status<=0;
-		else
-			cycle_status<=~cycle_status;
-	end
 	
 endmodule

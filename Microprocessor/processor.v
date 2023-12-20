@@ -3,30 +3,39 @@ module processor(clk, rst, PC, alu_result);
 	input clk,rst;
 	input [31:0]PC;
 	output [31:0]alu_result;
-	
 	wire [3:0]ALUCtrl;
 	
-	// Internal Signals
 	wire [31:0] instruction;
 	wire [5:0] opcode, funct;
-	wire [4:0] rs, rt, rd, shamt;
-	wire [15:0] immediate;
-	wire [31:0] read_data_1, read_data_2, alu_src_2, write_data;
-	wire [31:0] alu_out, memory_out;
-	wire reg_dst, alu_src, mem_to_reg, reg_write, mem_read, mem_write, branch_on_eq, branch_on_neq, alu_zero, jump, inc_pc, ext_op;
+	wire [4:0] rs, rt, rd, shamt, reg_rw_mux;
+	wire [15:0] immediate16;
+	wire [25:0] immediate26;
+	wire [31:0] next_pc_addr;
+	wire [31:0] acc_input_1, acc_input_2, sign_extended;
+	wire [31:0] data_mem_out, bus_w_mux, register_out_bus_b;
+	wire [31:0] result;
+	wire reg_dst, alu_src, mem_to_reg, reg_write, mem_read, mem_write; 
+	wire branch_on_eq, branch_on_neq, alu_zero, jump, inc_pc, ext_op, zero, inc_pc, pc_src;
 
 	program_counter prog_count(.clk(clk),
-							   .CLB(CLB),
-							   .IncPC(IncPC),
-							   .LoadPC(LoadPC),
-							   .selPC(SelPC),
-							   .regIn(reg_data),
-							   .imm(imm),
-							   .address(address));
+							   .rst(rst),
+							   .next_pc_addr(next_pc_addr),
+							   .pc_src(pc_src),
+							   .address(PC));
+	
+	next_programc next_pc(.immediate16(immediate16),
+						  .immediate26(immediate26),
+						  .pc(PC),
+						  .jump(jump),
+						  .zero(zero),
+						  .branch_on_eq(branch_on_eq),
+						  .branch_on_neq(branch_on_neq),
+						  .pc_src(pc_src),
+						  .target_address(next_pc_addr));
 
 	inst_mem inst_mem(.clk(clk),
 					  .rst(rst)
-					  .addr(address),
+					  .addr(PC),
 					  .instruction(instruction));
 
 	// Decode the instruction
@@ -36,31 +45,61 @@ module processor(clk, rst, PC, alu_result);
 	assign rd = instruction[15:11];
 	assign shamt = instruction[10:6];
 	assign funct = instruction[5:0];
-	assign immediate = instruction[15:0];
+	assign immediate16 = instruction[15:0];
+	assign immediate26 = instruction[25:0];
 
-	FSM fsm_control(.clk(clk),
-					.rst(rst),
-					.opcode(opcode),
-					.funct(funct),
-					.reg_write(reg_write),
-					.reg_dst(reg_dst),
-					.LoadPC(LoadPC)
-					,.LoadReg(LoadReg),
-					.LoadAcc(LoadAcc),
-					.SelALU(SelALU),
-					.cycle_status(cycle_status));
 
-	//accumulator accumulator(.clk(clk),.clb(CLB),.SelAcc(SelAcc),.LoadAcc(LoadAcc),.Imm(imm),.Reg_data(reg_data),.acc_data(acc_data),.alu_out(alu_out));
+	assign sign_extended = {{16{immediate16[15]}}, immediate16};
 
-	ALU ALU(.a(acc_data), 
-			.b(reg_data), 
+	assign acc_input_2 = (alu_src)?sign_extended:register_out_bus_b;
+
+	ALU ALU(.a(acc_input_1), 
+			.b(acc_input_2), 
 			.alu_ctrl(ALUCtrl), 
 			.shamt(shamt), 
-			.result(result));
+			.result(result)
+			.zout(alu_result));
 
+	FSM fsm_control(.rst(rst),
+					.opcode(opcode),
+					.funct(funct),
+					.zero(zero),
+					.reg_write(reg_write),
+					.reg_dst(reg_dst),
+					.ext_op(ext_op),
+					.alu_src(alu_src),
+					.mem_read(mem_read),
+					.mem_to_reg(mem_to_reg),
+					.mem_write(mem_write),
+					.branch_on_eq(branch_on_eq),
+					.branch_on_neq(branch_on_neq),
+					.jump(jump),
+					.ALUCtrl(ALUCtrl)
+					);
 	
-	//reg_file reg_mem(.clk(clk),.CLB(CLB),.LoadReg(LoadReg),.reg_in(acc_data),.RegAddr(RegAddr),.reg_out(reg_data));
+	assign reg_rw_mux = (reg_dst)?rd:rt;
 
-	//program_counter prog_count(.clk(clk),.CLB(CLB),.IncPC(IncPC),.LoadPC(LoadPC),.selPC(SelPC),.regIn(reg_data),.imm(imm),.address(address));
-		
+	assign bus_w_mux = (mem_to_reg)?data_mem_out?alu_result;
+
+	reg_file register(.clk(clk),
+					  .rst(rst),
+					  .Ra(rs),
+					  .Rb(rt),
+					  .Rw(reg_rw_mux),
+					  .bus_w(bus_w_mux),
+					  .regWrite(reg_write),
+					  .bus_a(acc_input_1),
+					  .bus_b(register_out_bus_b)					  
+					  );
+	
+	data_memory data_memory(
+		.clk(clk),
+		.rst(rst),
+		.addr(alu_result),
+		.data_in(register_out_bus_b),
+		.mem_read(mem_read),
+		.mem_write(mem_write),
+		.data_out(data_mem_out)
+	);
+
 endmodule
