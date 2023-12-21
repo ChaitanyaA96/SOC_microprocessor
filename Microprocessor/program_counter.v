@@ -11,10 +11,10 @@ module program_counter(
 	assign address = PC;
 
     always @(posedge clk or posedge rst) begin
-        if (rst) 
+        if (rst == 1'b0) 
             PC <= 32'b0;  // Reset PC to 0
         else if(inc_pc)
-            PC <= pc_src ? next_pc_addr : PC + 4;
+            PC <= pc_src ? next_pc_addr : PC + 1;
         else
             PC <= PC;
     end

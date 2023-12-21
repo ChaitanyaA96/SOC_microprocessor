@@ -20,6 +20,7 @@ module pc(clk, rst, Addr, alu_result);
 	program_counter prog_count(.clk(clk),
 							   .rst(rst),
 							   .next_pc_addr(next_pc_addr),
+							   .inc_pc(inc_pc)
 							   .pc_src(pc_src),
 							   .address(Addr));
 	
@@ -60,7 +61,8 @@ module pc(clk, rst, Addr, alu_result);
 			.result(alu_result),
 			.zout(zero));
 
-	FSM fsm_control(.rst(rst),
+	FSM fsm_control(.clk(clk),
+					.rst(rst),
 					.opcode(opcode),
 					.funct(funct),
 					.zero(zero),

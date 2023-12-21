@@ -1,4 +1,5 @@
 module FSM(
+	input clk,
 	input rst,
 	input zero,
 	input [5:0]opcode,
@@ -217,19 +218,28 @@ module FSM(
 
 				default:
 				begin
-					reg_dst = 0;
-					reg_write = 0;
-					ext_op = 0;
-					alu_src = 0;
-					mem_write = 0;
-					mem_read = 0;
-					mem_to_reg = 0;
-					branch_on_eq = 0;
-					branch_on_neq = 0;
-					jump = 0;
+					reg_dst = 1'b0;
+					reg_write = 1'b0;
+					ext_op = 1'b0;
+					alu_src = 1'b0;
+					mem_write = 1'b0;
+					mem_read = 1'b0;
+					mem_to_reg = 1'b0;
+					branch_on_eq = 1'b0;
+					branch_on_neq = 1'b0;
+					jump = 1'b0;
 					ALUCtrl=4'b1111;
 				end
 			endcase
 		end
-	
+
+		always @(posedge clk) begin
+			if (rst == 1'b1)
+				inc_pc <= 0;
+			else if(((opcode==6'b000100)&(zero==1'b1))|((opcode==6'b000101)&(zero==1'b0)))
+				inc_pc <= 0;
+			else 
+				inc_pc <= ~inc_pc;
+		end
+
 endmodule

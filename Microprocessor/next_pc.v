@@ -16,12 +16,12 @@ module next_pc(
 
     assign sign_extended = {{14{immediate16[15]}}, immediate16, 2'b00};
 
-    assign branch_target = pc + sign_extended;
+    assign branch_target = pc + 1 + sign_extended;
 
     assign jump_target = {pc[31:28], immediate26, 2'b00};
 
     always @(*) begin
-        if (jump) begin
+        if (jump == 1'b1) begin
             pc_src = 1'b1;
             target_address = jump_target;
         end
