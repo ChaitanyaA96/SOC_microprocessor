@@ -19,7 +19,7 @@ module FSM(
 							reg_dst=1'b1;
 							reg_write=1'b1;
 							alu_src = 1'b0;
-							branch_on_eq = 1'b1;
+							branch_on_eq = 1'b0;
 							branch_on_neq = 1'b0;
 							jump = 1'b0;
 							mem_read = 1'b0;
@@ -32,7 +32,7 @@ module FSM(
 							reg_dst=1'b1;
 							reg_write=1'b1;
 							alu_src = 1'b0;
-							branch_on_eq = 1'b1;
+							branch_on_eq = 1'b0;
 							branch_on_neq = 1'b0;
 							jump = 1'b0;
 							mem_read = 1'b0;
@@ -45,7 +45,7 @@ module FSM(
 							reg_dst=1'b1;
 							reg_write=1'b1;
 							alu_src = 1'b0;
-							branch_on_eq = 1'b1;
+							branch_on_eq = 1'b0;
 							branch_on_neq = 1'b0;
 							jump = 1'b0;
 							mem_read = 1'b0;
@@ -58,7 +58,7 @@ module FSM(
 							reg_dst=1'b1;
 							reg_write=1'b1;
 							alu_src = 1'b0;
-							branch_on_eq = 1'b1;
+							branch_on_eq = 1'b0;
 							branch_on_neq = 1'b0;
 							jump = 1'b0;
 							mem_read = 1'b0;
@@ -71,7 +71,7 @@ module FSM(
 							reg_dst=1'b1;
 							reg_write=1'b1;
 							alu_src = 1'b0;
-							branch_on_eq = 1'b1;
+							branch_on_eq = 1'b0;
 							branch_on_neq = 1'b0;
 							jump = 1'b0;
 							mem_read = 1'b0;
@@ -83,7 +83,7 @@ module FSM(
 						begin
 							reg_dst=1'b1;
 							reg_write=1'b1;
-							branch_on_eq = 1'b1;
+							branch_on_eq = 1'b0;
 							branch_on_neq = 1'b0;
 							jump = 1'b0;
 							alu_src = 1'b0;
@@ -111,7 +111,7 @@ module FSM(
 				6'b001000://Add Immediate
 				begin
 					reg_dst = 1'b0;
-					branch_on_eq = 1'b1;
+					branch_on_eq = 1'b0;
 					branch_on_neq = 1'b0;
 					jump = 1'b0;
 					mem_read = 1'b0;
@@ -125,7 +125,7 @@ module FSM(
 				6'b001100://And Immediate
 				begin
 					reg_dst = 1'b0;
-					branch_on_eq = 1'b1;
+					branch_on_eq = 1'b0;
 					branch_on_neq = 1'b0;
 					jump = 1'b0;
 					mem_read = 1'b0;
