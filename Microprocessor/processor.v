@@ -51,7 +51,7 @@ module processor(clk, rst, Addr, alu_result);
 	assign funct = instruction[5:0];
 	assign immediate16 = instruction[15:0];
 	assign immediate26 = instruction[25:0];
-	assign write_to_reg32 <= (opcode == 6'b000011) ? 1'b1 : 1'b0;
+	assign write_to_reg32 = (opcode == 6'b000011) ? 1'b1 : 1'b0;
 	
 	assign sign_extended = {{16{immediate16[15]}}, immediate16};
 
