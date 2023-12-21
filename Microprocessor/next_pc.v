@@ -25,7 +25,7 @@ module next_pc(
             pc_src = 1'b1;
             target_address = jump_target;
         end
-        else if ((branch_on_eq && zero) || (branch_on_neq && !zero)) begin
+        else if (((branch_on_eq == 1'b1) && (zero == 1'b1)) || ((branch_on_neq == 1'b1) && (zero == 1'b0))) begin
             pc_src = 1'b1;
             target_address = branch_target;
         end

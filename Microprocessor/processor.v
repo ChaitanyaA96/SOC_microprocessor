@@ -10,7 +10,7 @@ module pc(clk, rst, Addr, alu_result);
 	wire [4:0] rs, rt, rd, shamt, reg_rw_mux;
 	wire [15:0] immediate16;
 	wire [25:0] immediate26;
-	wire [31:0] next_pc_addr;
+	wire [31:0] target_address;
 	wire [31:0] acc_input_1, acc_input_2, sign_extended;
 	wire [31:0] data_mem_out, bus_w_mux, register_out_bus_b;
 	wire reg_dst, alu_src, mem_to_reg, reg_write, mem_read, mem_write; 
@@ -19,8 +19,8 @@ module pc(clk, rst, Addr, alu_result);
 
 	program_counter prog_count(.clk(clk),
 							   .rst(rst),
-							   .next_pc_addr(next_pc_addr),
-							   .inc_pc(inc_pc)
+							   .next_pc_addr(target_address),
+							   .inc_pc(inc_pc),
 							   .pc_src(pc_src),
 							   .address(Addr));
 	
@@ -32,7 +32,7 @@ module pc(clk, rst, Addr, alu_result);
 						  .branch_on_eq(branch_on_eq),
 						  .branch_on_neq(branch_on_neq),
 						  .pc_src(pc_src),
-						  .target_address(next_pc_addr));
+						  .target_address(target_address));
 
 	inst_mem inst_mem(.clk(clk),
 					  .rst(rst),
@@ -76,7 +76,8 @@ module pc(clk, rst, Addr, alu_result);
 					.branch_on_eq(branch_on_eq),
 					.branch_on_neq(branch_on_neq),
 					.jump(jump),
-					.ALUCtrl(ALUCtrl)
+					.ALUCtrl(ALUCtrl),
+					.inc_pc(inc_pc)
 					);
 	
 	assign reg_rw_mux = (reg_dst)?rd:rt;

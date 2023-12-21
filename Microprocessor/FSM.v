@@ -4,7 +4,7 @@ module FSM(
 	input zero,
 	input [5:0]opcode,
 	input [5:0]funct,
-	output reg reg_dst, reg_write, ext_op, alu_src, mem_read, mem_write, mem_to_reg, branch_on_eq, branch_on_neq, jump,
+	output reg reg_dst, reg_write, ext_op, alu_src, mem_read, mem_write, mem_to_reg, branch_on_eq, branch_on_neq, jump, inc_pc,
 	output reg [3:0]ALUCtrl);
 	
 	always @(*)
@@ -234,7 +234,7 @@ module FSM(
 		end
 
 		always @(posedge clk) begin
-			if (rst == 1'b1)
+			if (rst == 1'b0)
 				inc_pc <= 0;
 			else if(((opcode==6'b000100)&(zero==1'b1))|((opcode==6'b000101)&(zero==1'b0)))
 				inc_pc <= 0;
