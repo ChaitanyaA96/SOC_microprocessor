@@ -26,7 +26,7 @@ module test_pc;
     #5 clk = ~clk;
   end
 
- pc uut (
+ processor uut (
     .clk(clk),
     .rst(rst),
     .alu_result(alu_result),
