@@ -14,7 +14,7 @@ module next_pc(
     wire [31:0] branch_target;
     wire [31:0] jump_target;
 
-    assign sign_extended = {{14{immediate16[15]}}, immediate16, 2'b00};
+    assign sign_extended = {{16{immediate16[15]}}, immediate16};
 
     assign branch_target = pc + 1 + sign_extended;
 

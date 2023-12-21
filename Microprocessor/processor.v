@@ -15,6 +15,9 @@ module pc(clk, rst, Addr, alu_result);
 	wire [31:0] data_mem_out, bus_w_mux, register_out_bus_b;
 	wire reg_dst, alu_src, mem_to_reg, reg_write, mem_read, mem_write; 
 	wire branch_on_eq, branch_on_neq, alu_zero, jump, ext_op, zero, inc_pc, pc_src;
+	wire write_to_reg32;
+	
+
 
 
 	program_counter prog_count(.clk(clk),
@@ -48,8 +51,8 @@ module pc(clk, rst, Addr, alu_result);
 	assign funct = instruction[5:0];
 	assign immediate16 = instruction[15:0];
 	assign immediate26 = instruction[25:0];
-
-
+	assign write_to_reg32 = (opcode == 6'b000011);
+	
 	assign sign_extended = {{16{immediate16[15]}}, immediate16};
 
 	assign acc_input_2 = (alu_src)?sign_extended:register_out_bus_b;
@@ -80,9 +83,9 @@ module pc(clk, rst, Addr, alu_result);
 					.inc_pc(inc_pc)
 					);
 	
-	assign reg_rw_mux = (reg_dst)?rd:rt;
+	assign reg_rw_mux = write_to_reg32 ? 5'b10000 : (reg_dst)?rd:rt;
 
-	assign bus_w_mux = (mem_to_reg)?data_mem_out:alu_result;
+	assign bus_w_mux = write_to_reg32 ? Addr : (mem_to_reg)?data_mem_out:alu_result;
 
 	Register Register(.clk(clk),
 					  .rst(rst),

@@ -94,6 +94,16 @@ module FSM(
 						end
 					6'b001000://Jump Reg
 						begin
+							jump = 1'b1;
+							branch_on_eq = 1'b0;
+							branch_on_neq = 1'b0;
+							mem_read = 1'b0;
+							mem_write = 1'b0;
+							mem_to_reg = 1'bx;
+							reg_dst = 1'bx;
+							reg_write = 1'b0;
+							alu_src = 1'bx;
+							ALUCtrl = 4'b1111;
 						end
 					endcase
 				end
@@ -128,7 +138,7 @@ module FSM(
 
 				6'b000100://Branch on EQ
 				begin
-					reg_dst = 1'b0;
+					reg_dst = 1'bx;
 					branch_on_eq = 1'b1;
 					branch_on_neq = 1'b0;
 					mem_read = 1'b0;
@@ -142,7 +152,7 @@ module FSM(
 
 				6'b000101://Branch on NEQ
 				begin
-					reg_dst = 1'b0;
+					reg_dst = 1'bx;
 					branch_on_eq = 1'b0;
 					branch_on_neq = 1'b1;
 					mem_read = 1'b0;
@@ -156,22 +166,31 @@ module FSM(
 
 				6'b000010://Jump
 				begin
-					reg_dst = 1'b0;
+					reg_dst = 1'bx;
 					branch_on_eq = 1'b0;
 					branch_on_neq = 1'b0;
 					jump = 1'b1;
 					mem_read = 1'b0;
 					mem_write = 1'b0;
-					mem_to_reg = 1'b0;
-					alu_src = 1'b0;
-					reg_write = 1'b0;
+					mem_to_reg = 1'bx;
+					alu_src = 1'bx;
+					reg_write = 1'bx;
 					ALUCtrl = 4'b1111;
 				end
 
 
 				6'b000011://Jump and Link
 				begin
-					
+					reg_dst = 1'bx;
+					branch_on_eq = 1'b0;
+					branch_on_neq = 1'b0;
+					jump = 1'b1;
+					mem_read = 1'b0;
+					mem_write = 1'b0;
+					mem_to_reg = 1'bx;
+					alu_src = 1'bx;
+					reg_write = 1'b1;
+					ALUCtrl = 4'b1111;
 				end
 
 				6'b110000://Load Word
@@ -204,16 +223,16 @@ module FSM(
 
 				6'b111111://No operation
 				begin
-					begin
-						
-					end
-				end
-
-				6'b000110://Stall
-				begin
-					begin
-						
-					end
+					reg_dst = 1'bx;
+					branch_on_eq = 1'b0;
+					branch_on_neq = 1'b0;
+					jump = 1'b0;
+					mem_read = 1'b0;
+					mem_write = 1'b0;
+					mem_to_reg = 1'bx;
+					alu_src = 1'bx;
+					reg_write = 1'b0;
+					ALUCtrl = 4'b0000;
 				end
 
 				default:
@@ -236,7 +255,7 @@ module FSM(
 		always @(posedge clk) begin
 			if (rst == 1'b0)
 				inc_pc <= 0;
-			else if(((opcode==6'b000100)&(zero==1'b1))|((opcode==6'b000101)&(zero==1'b0)))
+			else if(opcode==6'b000110) //stall
 				inc_pc <= 0;
 			else 
 				inc_pc <= ~inc_pc;
